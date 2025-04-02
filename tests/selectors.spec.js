@@ -65,11 +65,8 @@ test.describe('XPath Selectors', () => {
 
         // validate the error message
         const errorContainer = page.locator('//*[@data-test="error"]')
-        expect(errorContainer).toBeVisible()
-        expect(page.locator('//*[@id="login_button_container"]/div/form/div[3]/h3')).toHaveText(
-            'Epic sadface: Password is required'
-        )
-
+        await expect(errorContainer).toBeVisible()
+        await expect(page.locator('//*[@id="login_button_container"]/div/form/div[3]/h3')).toHaveText('Epic sadface: Password is required')
     })
 });
 

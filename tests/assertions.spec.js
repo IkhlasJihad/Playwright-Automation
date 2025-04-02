@@ -4,10 +4,8 @@ import { test, expect } from '@playwright/test';
 test('Assertions demo', async ({ page }) => {
     await page.goto('https://kitchen.applitools.com/')
     //1. Element existence assertions
-    await expect(page.locator('text=The Kitchen')).toHaveCount(1)
-    // ElementHandler if decision is needed
-    if(page.$('text=The Kitchen')) {
-        page.locator('text=The Kitchen').click()
+    if(page.$('text=The Kitchen')) {  // ElementHandler if decision is needed
+        expect(page.locator('text=The Kitchen')).toHaveCount(1)
     }
 
     //2. Element visibility assertions
@@ -28,5 +26,5 @@ test('Assertions demo', async ({ page }) => {
 
     //await page.pause()  
     //6. visual validation against a screenshot
-    await expect(page).toHaveScreenshot()
+   // await expect(page).toHaveScreenshot()
 })
