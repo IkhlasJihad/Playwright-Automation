@@ -2,15 +2,24 @@ import { test, expect } from '@playwright/test';
 
 test.use({
   serviceWorkers: 'block'
-});
+})
+
+test.beforeEach( async({page}) => {
+    await page.goto(
+        'https://www.saucedemo.com/',
+        { waitUntil: 'domcontentloaded' }
+    )
+})
+
+test.afterEach( async({ page }) => {
+    await page.close() // Close the page after each test
+})
 
 test('Has correct title', async ({ page }) => {
-  await page.goto('https://www.saucedemo.com/');
   await expect(page).toHaveTitle("Swag Labs")
-});
+})
 
 test('Has correct divisions: login wrapper and credentials wrapper', async ({ page }) => {
-    await page.goto('https://www.saucedemo.com/');
     await expect(page.locator('#login_button_container')).toMatchAriaSnapshot(`
         - textbox "Username"
         - textbox "Password"
@@ -29,7 +38,6 @@ test('Has correct divisions: login wrapper and credentials wrapper', async ({ pa
 });
 
 test('Login-Logout', async ({ page }) => {
-  await page.goto('https://www.saucedemo.com/');
   await page.locator('[data-test="username"]').click()
   await page.locator('[data-test="username"]').fill('standard_user');
   await page.locator('[data-test="password"]').fill('secret_sauce');
@@ -44,8 +52,7 @@ test('Login-Logout', async ({ page }) => {
 `);
 });
 
-test('error on login', async ({page}) => {
-    await page.goto('https://www.saucedemo.com/');
+test('error on login', async ({ page }) => {
     await page.locator('[data-test="username"]').fill('error_user');
     await page.locator('[data-test="password"]').fill('secret_');
     await page.locator('[data-test="login-button"]').click();
